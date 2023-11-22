@@ -27,7 +27,7 @@ export const { loginSuccess, loginFailure } = googleSlice.actions;
 export const googleLoginAsync = (credential, navigate) => async (dispatch) => {
   try {
     const { data } = await axios.post(
-      "https://calm.bryanowen.tech/auth-google",
+      "http://localhost:3000/auth-google",
       null,
       {
         headers: { token: credential },

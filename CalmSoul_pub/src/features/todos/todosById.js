@@ -33,7 +33,7 @@ export const fetchAsync = (videoId) => async (dispatch) => {
   const token = localStorage.getItem("token");
   try {
     dispatch(fetchPending());
-    const { data } = await axios.get(`https://calm.bryanowen.tech/${videoId}`, {
+    const { data } = await axios.get(`http://localhost:3000/${videoId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

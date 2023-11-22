@@ -39,10 +39,7 @@ export const loginAsync = (userInput, navigate) => async (dispatch) => {
   try {
     dispatch(loginPending());
 
-    const response = await axios.post(
-      "https://calm.bryanowen.tech/login",
-      userInput
-    );
+    const response = await axios.post("http://localhost:3000/login", userInput);
 
     const token = response.data.access_token;
     localStorage.setItem("token", token);

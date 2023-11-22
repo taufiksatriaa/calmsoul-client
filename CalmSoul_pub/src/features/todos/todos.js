@@ -58,7 +58,7 @@ export const fetchAsync = () => async (dispatch) => {
   try {
     dispatch(fetchPending());
 
-    const { data } = await axios.get("https://calm.bryanowen.tech/", {
+    const { data } = await axios.get("http://localhost:3000/", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
