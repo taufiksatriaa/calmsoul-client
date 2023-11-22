@@ -2,24 +2,26 @@ import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { registerAsync } from "../features/users/register";
+import { googleLoginAsync } from "../features/users/loginGoogle";
 const Register = () => {
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [userInput, setUserInput] = useState({
     username: "",
     email: "",
     password: "",
   });
-  const register = async (e) => {
-    try {
-      e.preventDefault();
-      await axios.post("https://calm.bryanowen.tech/register", userInput);
-      navigate("/login");
-    } catch (error) {
-      setError(error.message);
-    }
+
+  const { loading, error } = useSelector((state) => state.register);
+
+  const register = (e) => {
+    e.preventDefault();
+    dispatch(registerAsync(userInput, navigate));
   };
+
   if (error) return <h1>{error}</h1>;
   return (
     <>
@@ -98,20 +100,10 @@ const Register = () => {
               className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"
             >
               <GoogleLogin
-                onSuccess={async (credentialResponse) => {
-                  try {
-                    // console.log(credentialResponse);
-                    const { data } = await axios.post(
-                      "https://calm.bryanowen.tech/auth-google",
-                      null,
-                      { headers: { token: credentialResponse.credential } }
-                    );
-                    // console.log(data);
-                    localStorage.setItem("token", data);
-                    navigate("/main");
-                  } catch (error) {
-                    console.log(error);
-                  }
+                onSuccess={(credentialResponse) => {
+                  dispatch(
+                    googleLoginAsync(credentialResponse.credential, navigate)
+                  );
                 }}
                 onError={() => {
                   console.log("Login Failed");
@@ -137,7 +129,7 @@ const Register = () => {
               </div>
               <div className="pb-2 pt-4">
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
                   placeholder="Email"
@@ -156,7 +148,7 @@ const Register = () => {
               <div className="pb-2 pt-4">
                 <input
                   className="block w-full p-4 text-lg rounded-sm bg-white text-black"
-                  type="password"
+                  type="text"
                   name="password"
                   id="password"
                   placeholder="Password"

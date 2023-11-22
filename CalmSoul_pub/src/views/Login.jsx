@@ -1,32 +1,25 @@
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { loginAsync } from "../features/users/login";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { googleLoginAsync } from "../features/users/loginGoogle";
 const Login = () => {
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state);
   const navigate = useNavigate();
   const [userInput, setUserInput] = useState({
     email: "",
     password: "",
   });
-  const login = async (e) => {
-    try {
-      e.preventDefault();
-      const response = await axios.post(
-        "https://calm.bryanowen.tech/login",
-        userInput
-      );
-      // console.log(response);
-      const token = response.data.access_token;
-      localStorage.setItem("token", token);
-      navigate("/main");
-    } catch (error) {
-      setError(error.message);
-    }
+  console.log(error);
+  const login = (e) => {
+    e.preventDefault();
+    dispatch(loginAsync(userInput, navigate));
   };
   if (error) return <h1>{error}</h1>;
-
   return (
     <>
       <section className="min-h-screen flex items-stretch text-white ">
@@ -104,20 +97,10 @@ const Login = () => {
               onSubmit={login}
             >
               <GoogleLogin
-                onSuccess={async (credentialResponse) => {
-                  try {
-                    // console.log(credentialResponse);
-                    const { data } = await axios.post(
-                      "https://calm.bryanowen.tech/auth-google",
-                      null,
-                      { headers: { token: credentialResponse.credential } }
-                    );
-                    // console.log(data);
-                    localStorage.setItem("token", data);
-                    navigate("/main");
-                  } catch (error) {
-                    console.log(error);
-                  }
+                onSuccess={(credentialResponse) => {
+                  dispatch(
+                    googleLoginAsync(credentialResponse.credential, navigate)
+                  );
                 }}
                 onError={() => {
                   console.log("Login Failed");
@@ -129,6 +112,7 @@ const Login = () => {
                   name="email"
                   id="email"
                   placeholder="Email"
+                  required
                   className="block w-full p-4 text-lg rounded-sm bg-white text-black"
                   value={userInput.email}
                   onChange={(e) => {
@@ -147,6 +131,7 @@ const Login = () => {
                   name="password"
                   id="password"
                   placeholder="Password"
+                  required
                   value={userInput.password}
                   onChange={(e) => {
                     const newUserInput = {
