@@ -7,6 +7,7 @@ import Main from "../views/Main";
 import Videos from "../views/Videos";
 import WatchVideo from "../views/WatchVideo";
 import Audios from "../views/Audios";
+import Live from "../views/Live";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/audios",
         element: <Audios />,
+      },
+      {
+        path: "/live",
+        element: <Live />,
       },
     ],
     loader: async () => {

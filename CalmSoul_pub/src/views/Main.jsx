@@ -16,14 +16,24 @@ const Main = () => {
               <p className="pr-0 mb-8 text-base text-gray-600 sm:text-lg xl:text-xl lg:pr-20">
                 Are you ready on your mindful journey?
               </p>
-              <button
-                onClick={() => {
-                  navigate("/videos");
-                }}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-              >
-                Watch Videos
-              </button>
+              <div className="flex">
+                <button
+                  onClick={() => {
+                    navigate("/videos");
+                  }}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2"
+                >
+                  Watch Videos
+                </button>
+                <button
+                  onClick={() => {
+                    navigate("/live");
+                  }}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                >
+                  Live Meditation
+                </button>
+              </div>
               {/* Integrates with section */}
             </div>
             <div className="relative z-50 flex flex-col items-end justify-center w-full h-full lg:w-1/2 ms:pl-10">
