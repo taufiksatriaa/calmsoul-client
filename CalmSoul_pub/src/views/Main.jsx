@@ -31,7 +31,7 @@ const Main = () => {
                   }}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 >
-                  Live Meditation
+                  1-on-1 Session
                 </button>
               </div>
               {/* Integrates with section */}
