@@ -15,7 +15,9 @@ const Live = () => {
         </AppBar>
         <VideoPlayer />
         <Options>
-          <Notifications />
+          <div className="py-4 mt-6">
+            <Notifications />
+          </div>
         </Options>
         {/* <ContextProvider /> */}
       </div>

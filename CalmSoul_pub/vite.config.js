@@ -6,6 +6,11 @@ export default defineConfig({
   plugins: [react()],
   define: {
     //tambahan
-    global: {},
+    // global: {},
+  },
+  resolve: {
+    alias: {
+      "readable-stream": "vite-compatible-readable-stream",
+    },
   },
 });

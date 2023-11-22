@@ -1,8 +1,12 @@
 /* eslint-disable react/prop-types */
+import global from "global";
+import * as process from "process";
+
 import { createContext, useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
 // const randombytes = require("randombytes");
 import Peer from "simple-peer";
+global.process = process;
 
 const SocketContext = createContext();
 
@@ -33,7 +37,7 @@ const ContextProvider = ({ children }) => {
 
     socket.on("me", (id) => setMe(id));
 
-    socket.emit("callUser", ({ from, name: callerName, signal }) => {
+    socket.on("callUser", ({ from, name: callerName, signal }) => {
       console.log("masuk callUSer");
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
@@ -61,26 +65,27 @@ const ContextProvider = ({ children }) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
     console.log(peer, "<<<<<");
 
-    // peer.on("signal", (data) => {
-    //   socket.emit("callUser", {
-    //     userToCall: id,
-    //     signalData: data,
-    //     from: me,
-    //     name,
-    //   });
-    // });
+    peer.on("signal", (data) => {
+      console.log("msuk signal");
+      socket.emit("callUser", {
+        userToCall: id,
+        signalData: data,
+        from: me,
+        name,
+      });
+    });
 
-    // peer.on("stream", (currentStream) => {
-    //   userVideo.current.srcObject = currentStream;
-    // });
+    peer.on("stream", (currentStream) => {
+      userVideo.current.srcObject = currentStream;
+    });
 
-    // socket.on("callAccepted", (signal) => {
-    //   setCallAccepted(true);
+    socket.on("callAccepted", (signal) => {
+      setCallAccepted(true);
 
-    //   peer.signal(signal);
-    // });
+      peer.signal(signal);
+    });
 
-    // connectionRef.current = peer;
+    connectionRef.current = peer;
   };
 
   const leaveCall = () => {
