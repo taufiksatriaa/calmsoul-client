@@ -11,6 +11,10 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
+  <script>
+    var global = global || window;
+    global.crypto = window.crypto || crypto
+  </script>
 </body>
 
 </html>
