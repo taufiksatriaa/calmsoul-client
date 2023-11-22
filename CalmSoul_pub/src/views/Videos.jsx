@@ -1,29 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAsync } from "../features/todos/todos";
 const Videos = () => {
-  const [videos, setVideos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("token");
-      const { data } = await axios.get("https://calm.bryanowen.tech/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      //   console.log(data);
-      setVideos(data.videos);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  const { todos, loading, error } = useSelector((state) => state.todosSlice);
+  const dispatch = useDispatch();
+  // console.log(todos.videos);
   useEffect(() => {
-    fetchData();
+    dispatch(fetchAsync());
   }, []);
   if (loading) return <h1>Loading...</h1>;
   if (error) return <h1>{error}</h1>;
@@ -43,7 +28,7 @@ const Videos = () => {
           >
             <source src="https://i.imgur.com/o61nEsB.mp4" type="video/mp4" />
           </video>
-          {videos.map((video, id) => {
+          {todos.videos?.map((video, id) => {
             return <MovieCard key={id} detail={video} />;
           })}
         </div>
