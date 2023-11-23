@@ -33,11 +33,14 @@ export const fetchAsync = (videoId) => async (dispatch) => {
   const token = localStorage.getItem("token");
   try {
     dispatch(fetchPending());
-    const { data } = await axios.get(`http://localhost:3000/${videoId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const { data } = await axios.get(
+      `https://h29jm9rs-3000.asse.devtunnels.ms/${videoId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     dispatch(fetchSuccess(data.video)); // Assuming data has a 'video' property
   } catch (error) {
     dispatch(fetchReject(error.message));

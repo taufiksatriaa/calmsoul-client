@@ -39,7 +39,10 @@ export const loginAsync = (userInput, navigate) => async (dispatch) => {
   try {
     dispatch(loginPending());
 
-    const response = await axios.post("http://localhost:3000/login", userInput);
+    const response = await axios.post(
+      "https://h29jm9rs-3000.asse.devtunnels.ms/login",
+      userInput
+    );
 
     const token = response.data.access_token;
     localStorage.setItem("token", token);
