@@ -58,11 +58,14 @@ export const fetchAsync = () => async (dispatch) => {
   try {
     dispatch(fetchPending());
 
-    const { data } = await axios.get("http://localhost:3000/", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const { data } = await axios.get(
+      "https://h29jm9rs-3000.asse.devtunnels.ms/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     dispatch(fetchSuccess(data));
   } catch (error) {

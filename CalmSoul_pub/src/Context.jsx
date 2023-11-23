@@ -10,7 +10,7 @@ global.process = process;
 
 const SocketContext = createContext();
 
-const socket = io("http://localhost:3000");
+const socket = io("https://h29jm9rs-3000.asse.devtunnels.ms/");
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);

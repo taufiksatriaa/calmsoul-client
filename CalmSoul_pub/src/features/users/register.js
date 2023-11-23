@@ -33,7 +33,10 @@ export const { registerPending, registerSuccess, registerFail } =
 export const registerAsync = (userInput, navigate) => async (dispatch) => {
   try {
     dispatch(registerPending());
-    await axios.post("http://localhost:3000/register", userInput);
+    await axios.post(
+      "https://h29jm9rs-3000.asse.devtunnels.ms/register",
+      userInput
+    );
     dispatch(registerSuccess(userInput));
     navigate("/login");
   } catch (error) {
